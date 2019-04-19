@@ -28,7 +28,7 @@ tf.app.flags.DEFINE_string('checkpoint_dir', 'result',
                             """Check point directory.""")
 tf.app.flags.DEFINE_boolean('run_once', True,
                             """Whether to run eval only once.""")
-tf.app.flags.DEFINE_integer('num_examples', 100,
+tf.app.flags.DEFINE_integer('num_examples', 50,
                             """Number of examples to run.""")
 
 
