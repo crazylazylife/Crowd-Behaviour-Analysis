@@ -45,7 +45,7 @@ def get_frames_data(filename, num_frames_per_clip=16):
           ret_arr.append(img_data)
       return ret_arr, s_index
 
-def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=16, crop_size = 112, shuffle=False):
+def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=16, crop_size = 112, shuffle=True):
       lines = open(filename,'r')
       read_dirnames = []
       data = []
@@ -54,17 +54,12 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
       next_batch_start = -1
       lines = list(lines)
       # Forcing shuffle, if start_pos is not specified
-      if start_pos < 0:
-        shuffle = True
-      '''
-      if shuffle:
-        video_indices = range(len(lines))
-        random.seed(time.time())
-        random.shuffle(video_indices)
-      else:
-        # Process videos sequentially
-      '''
-      video_indices = range(start_pos, len(lines))
+
+      video_indices = list(range(start_pos, len(lines)))
+      if(shuffle):
+          random.seed(time.time())
+          random.shuffle(video_indices)
+
       for index in video_indices:
         if(batch_index>=batch_size):
           next_batch_start = index
@@ -72,7 +67,7 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
         line = lines[index].strip('\n').split()
         dirname = line[0]
         tmp_label = line[2]
-        #print("Dirname and tmp_label: ",dirname, ", ", tmp_label)
+        print("Dirname and tmp_label: ",dirname, ", ", tmp_label)
         if not shuffle:
           print("Loading a video clip from {}...".format(dirname))
         tmp_data, _ = get_frames_data(dirname, num_frames_per_clip)
@@ -108,5 +103,5 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
 
 '''
 if __name__ == "__main__":
-    read_clip_and_label("./train.list", batch_size = 10, crop_size=224)
+    read_clip_and_label("./train.list", batch_size = 168, crop_size=224)
 '''

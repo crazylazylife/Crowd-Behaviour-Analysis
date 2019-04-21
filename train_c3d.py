@@ -31,9 +31,9 @@ tf.app.flags.DEFINE_string('train_dir', './result',
 tf.app.flags.DEFINE_string('pretrained_model',
                             './sports1m_finetuning_ucf101.model',
                             """Finetuning the model""")
-tf.app.flags.DEFINE_integer('max_steps', 10000,
+tf.app.flags.DEFINE_integer('max_steps', 500,
                             """Number of batches to run.""")
-tf.app.flags.DEFINE_integer('batch_size', 10,
+tf.app.flags.DEFINE_integer('batch_size', 16,
                             """Batch size.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
@@ -192,8 +192,6 @@ def run_training():
         allow_soft_placement=True,
         log_device_placement=FLAGS.log_device_placement))
 
-    start_step = 0
-
     # Retore the training model from check point
     ckpt = tf.train.get_checkpoint_state(FLAGS.train_dir)
     if ckpt and ckpt.model_checkpoint_path:
@@ -244,28 +242,37 @@ def run_training():
     test_writer = tf.summary.FileWriter(
         os.path.join(FLAGS.train_dir, 'visual_logs', 'test'),
         sess.graph)
+    #Get the input data
+    batch_start = int(input("Enter the batch_start index: "))
+    print("Loading the training dataset...")
+    train_images, train_labels, _, _, _ = input_data.read_clip_and_label(
+        filename='train.list',
+        batch_size=16, #Size of the training list
+        start_pos = batch_start,
+        num_frames_per_clip=c3d_model.NUM_FRAMES_PER_CLIP,
+        crop_size=c3d_model.CROP_SIZE,
+        shuffle=True)
 
+    val_images, val_labels, _, _, _ = input_data.read_clip_and_label(
+        filename='test.list',
+        batch_size=FLAGS.batch_size,
+        start_pos = -1,
+        num_frames_per_clip=c3d_model.NUM_FRAMES_PER_CLIP,
+        crop_size=c3d_model.CROP_SIZE,
+        shuffle=True)
 
-    for step in range(int(start_step), FLAGS.max_steps):
+    start_step = (batch_start//16)*500
+    for step in range(int(start_step), FLAGS.max_steps+int(start_step)):
+      #print("Start Step %d: "%step)
       start_time = time.time()
-      # Get the input data
-      # TODO: Check whether the data exist or not first
-      train_images, train_labels, _, _, _ = input_data.read_clip_and_label(
-          filename='train.list',
-          batch_size=FLAGS.batch_size,
-          num_frames_per_clip=c3d_model.NUM_FRAMES_PER_CLIP,
-          crop_size=c3d_model.CROP_SIZE,
-          shuffle=True)
-
       # Train the network
       sess.run(train_op, feed_dict={
                             images_placeholder: train_images,
                             labels_placeholder: train_labels})
       duration = time.time() - start_time
       # print('Step %d: %.3f sec' % (step, duration))
-
       # Evaluate the model periodically
-      if step % 50 == 0:
+      if step % 100 == 0:
         # Training Evaluation
         loss_value, accuracy_value = sess.run(
             [loss, accuracy],
@@ -286,12 +293,6 @@ def run_training():
 
         # Test Evaluation
         print('Testing Data Eval:')
-        val_images, val_labels, _, _, _ = input_data.read_clip_and_label(
-            filename='test.list',
-            batch_size=10,
-            num_frames_per_clip=c3d_model.NUM_FRAMES_PER_CLIP,
-            crop_size=c3d_model.CROP_SIZE,
-            shuffle=True)
         loss_value, accuracy_value = sess.run(
             [loss, accuracy],
             feed_dict={
@@ -327,11 +328,7 @@ def run_training():
         test_writer.add_summary(summary, step)
 
       # Save the model checkpoint periodically.
-      if step % 200 == 0 or (step + 1) == FLAGS.max_steps:
-        del_files = glob.glob(FLAGS.train_dir+"model.ckpt-*")
-        for file in del_files:
-          os.remove(file)
-
+      if step % 500 == 0 or (step + 1) == (FLAGS.max_steps+int(start_step)):
         checkpoint_path = os.path.join(FLAGS.train_dir, 'model.ckpt')
         saver.save(sess, checkpoint_path, global_step=step)
   print('Done')
