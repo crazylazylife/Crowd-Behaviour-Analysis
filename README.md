@@ -18,4 +18,4 @@ So the exact steps I followed are:
 My training might be faulty, owing to these constant changes in setting for training. As far as the effort given to complete the process in least specifications, I hope the training was carried out properly.*
 ## Future Target ##
 * Improve performance of the model.
-* Try out some other video classification model, like I3D, et cetra.
+* Try out some other video classification model, like I3D, et cetra. (Need a machine with a little higher configuration) 
