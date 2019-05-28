@@ -13,10 +13,7 @@ So the exact steps I followed are:
 3. Ran the train_c3d.py file. Specified the start of the batch, everytime.
 4. After 500 steps are completed and the trained model is saved, I restarted the kernel and ran the steps from 1 again.
 5. After the training was complete on the 168 test-data, I ran the eval_c3d.py file, that brought in the 48 test-data together and evaluated the model.
-
-You can also use relative paths like
-
-![Alt text](./visual_logs/some_graph.jpg?raw=true "Accuracy Curve")
+![Accuracy Curve](./visual_logs/some_graph.jpg?raw=true "Accuracy Curve")
 This was what the accuracy plot of the training and ttesting of the model looked like.
 *Note: If you wish to train the model again on the given data and have enough memory to bring in and train the training data all-together, I would suggest you to head to the C3c Github repo: https://github.com/hx173149/C3D-tensorflow and follow the steps there to train on your own custom dataset.\
 My training might be faulty, owing to these constant changes in setting for training. As far as the effort given to complete the process in least specifications, I hope the training was carried out properly.*
