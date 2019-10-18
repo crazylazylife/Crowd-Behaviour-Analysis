@@ -18,7 +18,6 @@ So the exact steps I followed are:
 This was what the accuracy plot of the training and testing of the model looked like.
 
 *Note: If you wish to train the model again on the given data and have enough memory to bring in and train the training data all-together, I would suggest you to head to the C3c Github repo: https://github.com/hx173149/C3D-tensorflow and follow the steps there to train on your own custom dataset.\
-My training might be faulty, owing to these constant changes in setting for training. As far as the effort given to complete the process in least specifications, I hope the training was carried out properly.*
 ## Future Target ##
 * Improve performance of the model.
 * Try out some other video classification model, like I3D, et cetra. (Need a machine with a little higher configuration) 
