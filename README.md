@@ -13,13 +13,13 @@ So the exact steps I followed are:
 3. Ran the train_c3d.py file. Specified the start of the batch, everytime.
 4. After 500 steps are completed and the trained model is saved, I restarted the kernel and ran the steps from 1 again.
 5. After the training was complete on the 168 test-data, I ran the eval_c3d.py file, that brought in the 48 test-data together and evaluated the model.
-6. The steps from 3 to 5 comprised only 1 epoch. This whole training ran for 10 epochs on the dataset.
+6. The steps from 3 to 5 comprised only 1 epoch. This whole training ran for 10 epochs on the dataset. Yes, it was a lot of pain.
 
 ![Accuracy Curve](https://github.com/crazylazylife/Crowd-Behaviour-Analysis/blob/master/visual_logs/some_graph.jpg "Accuracy Curve")
 This was what the accuracy plot of the training of the model looked like. Yes, I did not even understand the whole of it and I feel something is not working out in the log file.\
 However, the model achieved an overall accuracy of around 62% on the test set, which is not bad, I suppose.
 
-*Note: If you wish to train the model again on the given data and have enough memory to bring in and train the training data all-together, I would suggest you to head to the C3c Github repo: https://github.com/hx173149/C3D-tensorflow and follow the steps there to train on your own custom dataset.\
+*Note: If you wish to train the model again on the given data and have enough memory to bring in and train the training data all-together, I would suggest you to head to the C3c Github repo: https://github.com/hx173149/C3D-tensorflow and follow the steps there to train on your own custom dataset.
 ## Future Target ##
 * Improve performance of the model.
 * Try out some other video classification model, like I3D, et cetra. (Need a machine with a little higher configuration) 
