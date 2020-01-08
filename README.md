@@ -15,7 +15,7 @@ So the exact steps I followed are:
 5. After the training was complete on the 168 test-data, I ran the eval_c3d.py file, that brought in the 48 test-data together and evaluated the model.
 6. The steps from 3 to 5 comprised only 1 epoch. This whole training ran for 10 epochs on the dataset.
 
-![Accuracy Curve](https://github.com/crazylazylife/Crowd-Behaviour-Analysis/blob/master/visual_logs/some_graph.JPG "Accuracy Curve")
+![Accuracy Curve](https://github.com/crazylazylife/Crowd-Behaviour-Analysis/blob/master/visual_logs/some_graph.jpg "Accuracy Curve")
 This was what the accuracy plot of the training of the model looked like. It achieved an overall accuracy of around 62% on the test set.
 
 *Note: If you wish to train the model again on the given data and have enough memory to bring in and train the training data all-together, I would suggest you to head to the C3c Github repo: https://github.com/hx173149/C3D-tensorflow and follow the steps there to train on your own custom dataset.\
